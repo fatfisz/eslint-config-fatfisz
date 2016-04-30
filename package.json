@@ -15,5 +15,8 @@
     "eslint",
     "eslintconfig",
     "styleguide"
-  ]
+  ],
+  "peerDependencies": {
+    "eslint": "^2.9.0"
+  }
 }
