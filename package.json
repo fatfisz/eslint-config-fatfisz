@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-fatfisz",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "description": "ESLint config for FatFisz coding standard",
   "main": "index.js",
   "homepage": "https://github.com/fatfisz/eslint-config-fatfisz",
@@ -17,6 +17,6 @@
     "styleguide"
   ],
   "peerDependencies": {
-    "eslint": "^2.10.0"
+    "eslint": "^2.11.1"
   }
 }
