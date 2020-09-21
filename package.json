@@ -16,6 +16,10 @@
     "eslintconfig",
     "styleguide"
   ],
+  "files": [
+    "index.js",
+    "isPackageInstalled.js"
+  ],
   "dependencies": {
     "eslint-config-prettier": "6",
     "eslint-plugin-import": "2",
