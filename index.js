@@ -15,6 +15,14 @@ const config = {
     'no-sparse-arrays': 'off',
     'no-useless-rename': 'warn',
     'object-shorthand': 'warn',
+    'padding-line-between-statements': [
+      'warn',
+      { blankLine: 'always', prev: '*', next: 'directive' },
+      { blankLine: 'always', prev: 'directive', next: '*' },
+      { blankLine: 'never', prev: 'directive', next: 'directive' },
+      { blankLine: 'always', prev: '*', next: 'function' },
+      { blankLine: 'always', prev: 'function', next: '*' },
+    ],
     'sort-imports': [
       'warn',
       {
