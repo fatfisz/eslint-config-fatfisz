@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-fatfisz",
   "version": "2.11.0",
-  "description": "ESLint config for FatFisz coding standard",
+  "description": "ESLint config for the FatFisz coding standard",
   "main": "index.js",
   "homepage": "https://github.com/fatfisz/eslint-config-fatfisz",
   "repository": "https://github.com/fatfisz/eslint-config-fatfisz.git",

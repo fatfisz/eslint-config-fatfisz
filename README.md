@@ -1,18 +1,44 @@
 # eslint-config-fatfisz
 
-This is an ESLint config I'm using for my projects, but you can also use it if you want to:
+This is an ESLint config I'm using for my projects.
+
+## Installation
+
 ```shell
-npm install eslint-config-fatfisz --save
+yarn add -E eslint-config-fatfisz
 ```
 
-Then in `.eslintrc` put:
+Then in `.eslintrc.js` put:
+
+```js
+'use strict';
+
+module.exports = {
+  root: true,
+  extends: 'fatfisz',
+
+  ... // Tweak it as you like, add overrides and such
+};
 ```
-{
-  "extends": "fatfisz",
-  ...
-}
+
+## Optional dependencies
+
+Take into consideration that this config has some optional dependencies and some rules won't unlock unless you have them installed.
+So if you're using TypeScript, install the follwing packages too:
+
+```shell
+yarn add -E @typescript-eslint/eslint-plugin
+yarn add -E @typescript-eslint/parser
+yarn add -E typescript
+```
+
+and for React install those:
+
+```shell
+yarn add -E eslint-plugin-react
+yarn add -E eslint-plugin-react-hooks
 ```
 
 ## License
 
-Copyright (c) 2016 Rafał Ruciński. Licensed under the MIT license.
+Copyright (c) 2020 Rafał Ruciński. Licensed under the MIT license.
