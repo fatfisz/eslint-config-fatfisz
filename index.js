@@ -95,7 +95,6 @@ if (isPackageInstalled('@typescript-eslint/eslint-plugin')) {
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
     '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/explicit-': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
