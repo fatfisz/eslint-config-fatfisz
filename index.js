@@ -13,6 +13,7 @@ const config = {
     curly: 'warn',
     'no-prototype-builtins': 'off',
     'no-sparse-arrays': 'off',
+    'no-unreachable': 'warn',
     'no-useless-rename': 'warn',
     'object-shorthand': 'warn',
     'padding-line-between-statements': [
@@ -92,7 +93,7 @@ if (isPackageInstalled('@typescript-eslint/eslint-plugin')) {
   Object.assign(config.rules, {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
-    '@typescript-eslint/explicit-function-return-type': 'warn',
+    '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/explicit-': 'off',
     '@typescript-eslint/no-empty-function': 'off',
