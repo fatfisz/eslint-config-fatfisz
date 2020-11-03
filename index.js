@@ -11,6 +11,7 @@ const config = {
 
   rules: {
     curly: 'warn',
+    'no-empty': ['warn', { allowEmptyCatch: true }],
     'no-prototype-builtins': 'off',
     'no-sparse-arrays': 'off',
     'no-unreachable': 'warn',
