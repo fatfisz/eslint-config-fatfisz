@@ -61,6 +61,12 @@ const config = {
   },
   overrides: [
     {
+      files: '.eslintrc.js',
+      env: {
+        node: true,
+      },
+    },
+    {
       files: '**/*.js',
       parserOptions: {
         sourceType: 'script',
@@ -112,6 +118,42 @@ if (isPackageInstalled('@typescript-eslint/eslint-plugin')) {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
+  });
+
+  config.overrides.push({
+    files: '**/*.d.ts',
+    rules: {
+      'import/no-default-export': 'off',
+    },
+  });
+}
+
+if (isPackageInstalled('next')) {
+  config.overrides.push(
+    {
+      files: 'pages/**',
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
+    {
+      files: ['next.config.js', 'pages/api/**'],
+      env: {
+        node: true,
+      },
+    },
+  );
+}
+
+if (isPackageInstalled('rollup')) {
+  config.overrides.push({
+    files: 'rollup.config.js',
+    parserOptions: {
+      sourceType: 'module',
+    },
+    rules: {
+      'import/no-default-export': 'off',
+    },
   });
 }
 
