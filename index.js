@@ -95,7 +95,6 @@ if (isPackageInstalled('@typescript-eslint/eslint-plugin')) {
   Object.assign(config.rules, {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
-    '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': ['warn', { fixToUnknown: true }],
