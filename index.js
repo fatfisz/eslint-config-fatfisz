@@ -35,7 +35,6 @@ const config = {
     ],
     strict: ['warn', 'global'],
 
-    'import/extensions': 'warn',
     'import/first': 'warn',
     'import/newline-after-import': 'warn',
     'import/no-default-export': 'warn',
