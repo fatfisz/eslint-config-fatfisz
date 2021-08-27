@@ -21,7 +21,7 @@
     "isPackageInstalled.js"
   ],
   "dependencies": {
-    "eslint-config-prettier": "6",
+    "eslint-config-prettier": "8",
     "eslint-plugin-import": "2",
     "eslint-plugin-prettier": "3",
     "prettier": "2"
