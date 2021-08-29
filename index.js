@@ -174,17 +174,17 @@ module.exports = config;
 if (missingPackages.length > 0 ) {
   console.error(`
 Error from eslint-config-fatfisz: some packages are missing
-${missingPackages.map(package => `- ${package}`).join('\n')}
+${missingPackages.map(missingPackage => `- ${missingPackage}`).join('\n')}
 
 Run \`yarn add -ED ${missingPackages.join(' ')}\`
 `);
 }
 
-function checkRequiredPackages(...packages) {
+function checkRequiredPackages(...requiredPackages) {
   let hasAll = true;
-  for (const package of packages) {
-    if (!isPackageInstalled(package)) {
-      missingPackages.push(package);
+  for (const requiredPackage of requiredPackages) {
+    if (!isPackageInstalled(requiredPackage)) {
+      missingPackages.push(requiredPackage);
       hasAll = false;
     }
   }
