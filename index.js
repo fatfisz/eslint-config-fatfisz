@@ -2,6 +2,8 @@
 
 const { isPackageInstalled } = require('./isPackageInstalled');
 
+const missingPackages = [];
+
 const config = {
   settings: {},
 
@@ -76,7 +78,10 @@ const config = {
   ],
 };
 
-if (isPackageInstalled('eslint-plugin-react')) {
+if (
+  isPackageInstalled('react') &&
+  checkRequiredPackages('eslint-plugin-react', 'eslint-plugin-react-hooks')
+) {
   config.settings.react = {
     version: 'detect',
   };
@@ -90,7 +95,14 @@ if (isPackageInstalled('eslint-plugin-react')) {
   });
 }
 
-if (isPackageInstalled('@typescript-eslint/eslint-plugin')) {
+if (
+  isPackageInstalled('typescript') &&
+  checkRequiredPackages(
+    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint/parser',
+    'typescript',
+  )
+) {
   config.extends.push('plugin:@typescript-eslint/recommended');
 
   config.parser = '@typescript-eslint/parser';
@@ -158,3 +170,23 @@ if (isPackageInstalled('rollup')) {
 }
 
 module.exports = config;
+
+if (missingPackages.length > 0 ) {
+  console.error(`
+Error from eslint-config-fatfisz: some packages are missing
+${missingPackages.map(package => `- ${package}`).join('\n')}
+
+Run \`yarn add -ED ${missingPackages.join(' ')}\`
+`);
+}
+
+function checkRequiredPackages(...packages) {
+  let hasAll = true;
+  for (const package of packages) {
+    if (!isPackageInstalled(package)) {
+      missingPackages.push(package);
+      hasAll = false;
+    }
+  }
+  return hasAll;
+}
