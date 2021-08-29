@@ -171,10 +171,10 @@ if (isPackageInstalled('rollup')) {
 
 module.exports = config;
 
-if (missingPackages.length > 0 ) {
+if (missingPackages.length > 0) {
   console.error(`
 Error from eslint-config-fatfisz: some packages are missing
-${missingPackages.map(missingPackage => `- ${missingPackage}`).join('\n')}
+${missingPackages.map((missingPackage) => `- ${missingPackage}`).join('\n')}
 
 Run \`yarn add -ED ${missingPackages.join(' ')}\`
 `);
