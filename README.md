@@ -24,21 +24,21 @@ module.exports = {
 ## Optional dependencies
 
 Take into consideration that this config has some optional dependencies and some rules won't unlock unless you have them installed.
-So if you're using TypeScript, install the follwing packages too:
+So if you're using TypeScript, install the following packages too:
 
 ```shell
-yarn add -E @typescript-eslint/eslint-plugin
-yarn add -E @typescript-eslint/parser
-yarn add -E typescript
+yarn add -ED @typescript-eslint/eslint-plugin
+yarn add -ED @typescript-eslint/parser
+yarn add -ED typescript
 ```
 
 and for React install those:
 
 ```shell
-yarn add -E eslint-plugin-react
-yarn add -E eslint-plugin-react-hooks
+yarn add -ED eslint-plugin-react
+yarn add -ED eslint-plugin-react-hooks
 ```
 
 ## License
 
-Copyright (c) 2020 Rafał Ruciński. Licensed under the MIT license.
+Copyright (c) 2021 Rafał Ruciński. Licensed under the MIT license.
