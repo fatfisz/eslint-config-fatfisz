@@ -4,8 +4,10 @@ This is an ESLint config I'm using for my projects.
 
 ## Installation
 
+There are some peer dependencies that need to be installed together because of how ESLint resolves packages:
+
 ```shell
-yarn add -E eslint-config-fatfisz
+yarn add -E eslint-config-fatfisz eslint-config-prettier eslint-plugin-import eslint-plugin-prettier prettier
 ```
 
 Then in `.eslintrc.js` put:
@@ -27,16 +29,13 @@ Take into consideration that this config has some optional dependencies and some
 So if you're using TypeScript, install the following packages too:
 
 ```shell
-yarn add -ED @typescript-eslint/eslint-plugin
-yarn add -ED @typescript-eslint/parser
-yarn add -ED typescript
+yarn add -ED @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript
 ```
 
 and for React install those:
 
 ```shell
-yarn add -ED eslint-plugin-react
-yarn add -ED eslint-plugin-react-hooks
+yarn add -ED eslint-plugin-react eslint-plugin-react-hooks
 ```
 
 ## License
