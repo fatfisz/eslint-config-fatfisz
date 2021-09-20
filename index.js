@@ -11,6 +11,10 @@ const config = {
 
   plugins: ['import', 'prettier'],
 
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
+
   reportUnusedDisableDirectives: true,
 
   rules: {
