@@ -116,7 +116,7 @@ if (
   config.plugins.push('@typescript-eslint');
 
   Object.assign(config.rules, {
-    '@typescript-eslint/array-type': ['warn', 'array'],
+    '@typescript-eslint/array-type': ['warn', { default: 'array' }],
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
