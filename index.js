@@ -11,6 +11,8 @@ const config = {
 
   plugins: ['import', 'prettier'],
 
+  reportUnusedDisableDirectives: true,
+
   rules: {
     curly: 'warn',
     'no-empty': ['warn', { allowEmptyCatch: true }],
