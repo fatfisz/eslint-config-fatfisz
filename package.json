@@ -20,6 +20,9 @@
     "index.js",
     "isPackageInstalled.js"
   ],
+  "scripts": {
+    "lint:ci": "eslint . --max-warnings 0"
+  },
   "dependencies": {
     "eslint-config-prettier": "8",
     "eslint-plugin-import": "2",
