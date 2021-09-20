@@ -1,4 +1,4 @@
-# eslint-config-fatfisz
+# eslint-config-fatfisz ![ci](https://github.com/fatfisz/eslint-config-fatfisz/actions/workflows/ci.yml/badge.svg)
 
 This is an ESLint config I'm using for my projects.
 
