@@ -8,8 +8,13 @@
 const globals = require('globals');
 
 const browserGlobals = Object.keys(globals.browser);
-const sharedGlobals = new Set(Object.keys(globals['shared-node-browser']));
+const allowedGlobals = new Set([
+  ...Object.keys(globals['shared-node-browser']),
+  // Those are also allowed
+  'document',
+  'window',
+]);
 
 exports.restrictedGlobals = browserGlobals
-  .filter((name) => !sharedGlobals.has(name))
+  .filter((name) => !allowedGlobals.has(name))
   .map((name) => ({ name, message: `Use window.${name} instead.` }));
