@@ -27,6 +27,7 @@
     "eslint-config-prettier": "8",
     "eslint-plugin-import": "2",
     "eslint-plugin-prettier": "4",
+    "globals": "13",
     "prettier": "2"
   },
   "devDependencies": {

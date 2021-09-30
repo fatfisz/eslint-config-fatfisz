@@ -1,6 +1,7 @@
 'use strict';
 
 const { isPackageInstalled } = require('./isPackageInstalled');
+const { restrictedGlobals } = require('./restrictedGlobals');
 
 const missingPackages = [];
 
@@ -11,7 +12,7 @@ const config = {
 
   plugins: ['import', 'prettier'],
 
-  env: { 'shared-node-browser': true },
+  env: { es2020: true, 'shared-node-browser': true },
 
   parserOptions: {
     ecmaVersion: 2020,
@@ -23,6 +24,7 @@ const config = {
     curly: 'warn',
     'no-empty': ['warn', { allowEmptyCatch: true }],
     'no-prototype-builtins': 'off',
+    'no-restricted-globals': ['warn', ...restrictedGlobals],
     'no-sparse-arrays': 'off',
     'no-unreachable': 'warn',
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
@@ -150,22 +152,32 @@ if (
 }
 
 if (isPackageInstalled('jest')) {
+  const restrictedMessage = 'Do merge tests that are a work in progress.';
+
   config.overrides.push({
     files: '**/*.test.*',
     env: { jest: true },
     rules: {
-      'no-restricted-globals': ['warn', 'fdescribe', 'fit', 'xdescribe', 'xit', 'xtest'],
+      'no-restricted-globals': [
+        'warn',
+        ...restrictedGlobals,
+        { name: 'fdescribe', message: restrictedMessage },
+        { name: 'fit', message: restrictedMessage },
+        { name: 'xdescribe', message: restrictedMessage },
+        { name: 'xit', message: restrictedMessage },
+        { name: 'xtest', message: restrictedMessage },
+      ],
       'no-restricted-properties': [
         'warn',
-        { object: 'describe', property: 'only' },
-        { object: 'describe', property: 'skip' },
-        { object: 'describe', property: 'todo' },
-        { object: 'it', property: 'only' },
-        { object: 'it', property: 'skip' },
-        { object: 'it', property: 'todo' },
-        { object: 'test', property: 'only' },
-        { object: 'test', property: 'skip' },
-        { object: 'test', property: 'todo' },
+        { object: 'describe', property: 'only', message: restrictedMessage },
+        { object: 'describe', property: 'skip', message: restrictedMessage },
+        { object: 'describe', property: 'todo', message: restrictedMessage },
+        { object: 'it', property: 'only', message: restrictedMessage },
+        { object: 'it', property: 'skip', message: restrictedMessage },
+        { object: 'it', property: 'todo', message: restrictedMessage },
+        { object: 'test', property: 'only', message: restrictedMessage },
+        { object: 'test', property: 'skip', message: restrictedMessage },
+        { object: 'test', property: 'todo', message: restrictedMessage },
       ],
     },
   });
