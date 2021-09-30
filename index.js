@@ -11,6 +11,8 @@ const config = {
 
   plugins: ['import', 'prettier'],
 
+  env: { 'shared-node-browser': true },
+
   parserOptions: {
     ecmaVersion: 2020,
   },
@@ -71,9 +73,7 @@ const config = {
   overrides: [
     {
       files: '.eslintrc.js',
-      env: {
-        node: true,
-      },
+      env: { node: true },
     },
     {
       files: '**/*.js',
@@ -181,9 +181,7 @@ if (isPackageInstalled('next')) {
     },
     {
       files: ['next.config.js', 'pages/api/**'],
-      env: {
-        node: true,
-      },
+      env: { node: true },
     },
   );
 }
