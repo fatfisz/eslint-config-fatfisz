@@ -18,7 +18,8 @@
   ],
   "files": [
     "index.js",
-    "isPackageInstalled.js"
+    "isPackageInstalled.js",
+    "restrictedGlobals.js"
   ],
   "scripts": {
     "lint:ci": "eslint . --max-warnings 0"
