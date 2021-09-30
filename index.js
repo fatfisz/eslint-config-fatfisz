@@ -34,6 +34,7 @@ const config = {
       { blankLine: 'always', prev: '*', next: 'function' },
       { blankLine: 'always', prev: 'function', next: '*' },
     ],
+    quotes: ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'sort-imports': [
       'warn',
       {
