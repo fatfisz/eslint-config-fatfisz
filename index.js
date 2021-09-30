@@ -149,6 +149,28 @@ if (
   });
 }
 
+if (isPackageInstalled('jest')) {
+  config.overrides.push({
+    files: '**/*.test.*',
+    env: { jest: true },
+    rules: {
+      'no-restricted-globals': ['warn', 'fdescribe', 'fit', 'xdescribe', 'xit', 'xtest'],
+      'no-restricted-properties': [
+        'warn',
+        { object: 'describe', property: 'only' },
+        { object: 'describe', property: 'skip' },
+        { object: 'describe', property: 'todo' },
+        { object: 'it', property: 'only' },
+        { object: 'it', property: 'skip' },
+        { object: 'it', property: 'todo' },
+        { object: 'test', property: 'only' },
+        { object: 'test', property: 'skip' },
+        { object: 'test', property: 'todo' },
+      ],
+    },
+  });
+}
+
 if (isPackageInstalled('next')) {
   config.overrides.push(
     {
