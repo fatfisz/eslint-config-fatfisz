@@ -95,6 +95,7 @@ if (
   config.extends.push('plugin:react/recommended', 'plugin:react-hooks/recommended');
 
   Object.assign(config.rules, {
+    'react/jsx-curly-brace-presence': ['warn', 'never'],
     'react/prop-types': 'warn',
     // If you are not auto-injecting React, then fix that ;)
     'react/react-in-jsx-scope': 'off',
