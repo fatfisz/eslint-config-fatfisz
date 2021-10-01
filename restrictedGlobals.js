@@ -11,7 +11,7 @@ const browserGlobals = Object.keys(globals.browser);
 const allowedGlobals = new Set([
   ...Object.keys(globals['shared-node-browser']),
   // Types are allowed because TypeScript puts everything into global scope (lib.dom.d.ts)
-  browserGlobals.filter((name) => /^[A-Z]/.test(name)),
+  ...browserGlobals.filter((name) => /^[A-Z]/.test(name)),
   // Those are also allowed
   'document',
   'window',
