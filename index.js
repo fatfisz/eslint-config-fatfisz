@@ -139,6 +139,7 @@ if (
   Object.assign(config.overrides.find((override) => override.files === '**/*.js').rules, {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-empty-interface': ['warn', { allowSingleExtends: true }],
     '@typescript-eslint/no-unused-vars': 'off',
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
   });
