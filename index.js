@@ -94,13 +94,15 @@ if (
     version: 'detect',
   };
 
-  config.extends.push('plugin:react/recommended', 'plugin:react-hooks/recommended');
+  config.extends.push(
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
+  );
 
   Object.assign(config.rules, {
     'react/jsx-curly-brace-presence': ['warn', 'never'],
     'react/prop-types': 'warn',
-    // If you are not auto-injecting React, then fix that ;)
-    'react/react-in-jsx-scope': 'off',
   });
 }
 
@@ -133,10 +135,6 @@ if (
     'no-undef': 'error',
   });
 
-  if (config.rules.hasOwnProperty('react/prop-types')) {
-    config.rules['react/prop-types'] = 'off';
-  }
-
   Object.assign(config.overrides.find((override) => override.files === '**/*.js').rules, {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -150,6 +148,10 @@ if (
       'import/no-default-export': 'off',
     },
   });
+}
+
+if (isPackageInstalled('react') && isPackageInstalled('typescript')) {
+  config.rules['react/prop-types'] = 'off';
 }
 
 if (isPackageInstalled('jest')) {
