@@ -23,14 +23,6 @@ module.exports = {
 };
 ```
 
-If you are working in a browser environment, add this too:
-
-```js
-module.exports = {
-  extends: ['fatfisz', 'fatfisz/browser'],
-};
-```
-
 ## Optional dependencies
 
 Take into consideration that this config has some optional dependencies and some rules won't unlock unless you have them installed.

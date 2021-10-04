@@ -2,6 +2,7 @@
 
 const { checkDeps } = require('./checkDeps');
 const { isPackageInstalled } = require('./isPackageInstalled');
+const { restrictedGlobals } = require('./restrictedGlobals');
 
 checkDeps();
 
@@ -24,6 +25,7 @@ const config = {
     curly: 'warn',
     'no-empty': ['warn', { allowEmptyCatch: true }],
     'no-prototype-builtins': 'off',
+    'no-restricted-globals': ['warn', ...restrictedGlobals],
     'no-sparse-arrays': 'off',
     'no-unreachable': 'warn',
     'no-unused-vars': ['warn', { ignoreRestSiblings: true }],
@@ -123,7 +125,6 @@ if (isPackageInstalled('typescript')) {
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     '@typescript-eslint/no-var-requires': 'off',
     'no-unused-vars': 'off',
-    'no-undef': 'error',
   });
 
   Object.assign(config.overrides.find((override) => override.files === '**/*.js').rules, {
@@ -154,6 +155,7 @@ if (isPackageInstalled('jest')) {
     rules: {
       'no-restricted-globals': [
         'warn',
+        ...restrictedGlobals,
         { name: 'fdescribe', message: restrictedMessage },
         { name: 'fit', message: restrictedMessage },
         { name: 'xdescribe', message: restrictedMessage },
