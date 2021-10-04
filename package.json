@@ -18,6 +18,7 @@
   ],
   "files": [
     "browser.js",
+    "checkDeps.js",
     "globals.js",
     "index.js",
     "isPackageInstalled.js"
