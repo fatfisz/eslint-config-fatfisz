@@ -17,9 +17,10 @@
     "styleguide"
   ],
   "files": [
+    "browser.js",
+    "globals.js",
     "index.js",
-    "isPackageInstalled.js",
-    "restrictedGlobals.js"
+    "isPackageInstalled.js"
   ],
   "scripts": {
     "lint:ci": "eslint . --max-warnings 0"

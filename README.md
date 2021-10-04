@@ -7,7 +7,7 @@ This is an ESLint config I'm using for my projects.
 There are some peer dependencies that need to be installed together because of how ESLint resolves packages:
 
 ```shell
-yarn add -E eslint-config-fatfisz eslint-config-prettier eslint-plugin-import eslint-plugin-prettier prettier
+yarn add -ED eslint-config-fatfisz eslint-config-prettier eslint-plugin-import eslint-plugin-prettier prettier
 ```
 
 Then in `.eslintrc.js` put:
@@ -20,6 +20,14 @@ module.exports = {
   extends: 'fatfisz',
 
   ... // Tweak it as you like, add overrides and such
+};
+```
+
+If you are working in a browser environment, add this too:
+
+```js
+module.exports = {
+  extends: ['fatfisz', 'fatfisz/browser'],
 };
 ```
 
