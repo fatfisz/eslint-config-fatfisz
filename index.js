@@ -102,6 +102,15 @@ if (isPackageInstalled('react')) {
 
   Object.assign(config.rules, {
     'react/jsx-curly-brace-presence': ['warn', 'never'],
+    /**
+     * The way this rule is implemented makes it overly restrictive, eg. elements in an array
+     * passed to a component that wraps them in elements with their own keys will also get
+     * a warning. Since React warns about it in the console, it's better to rely on it rather than
+     * on a broken rule.
+     */
+    'react/jsx-key': 'off',
+    // Overly restrictive for React.createElement, not possible to configure to turn it off in that case
+    'react/no-children-prop': 'off',
     'react/prop-types': 'warn',
   });
 }
