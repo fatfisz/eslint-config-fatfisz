@@ -33,7 +33,12 @@
     "prettier": "2"
   },
   "devDependencies": {
-    "eslint": "7"
+    "@typescript-eslint/eslint-plugin": "5",
+    "@typescript-eslint/parser": "5",
+    "eslint": "7",
+    "eslint-plugin-react": "7",
+    "eslint-plugin-react-hooks": "4",
+    "typescript": "4"
   },
   "peerDependencies": {
     "eslint": "7",
