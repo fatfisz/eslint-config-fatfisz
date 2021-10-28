@@ -125,6 +125,8 @@ if (isPackageInstalled('typescript')) {
   Object.assign(config.rules, {
     '@typescript-eslint/array-type': ['warn', { default: 'array' }],
     '@typescript-eslint/ban-ts-comment': 'off',
+    // {} might be too permissive, but I often need it in intersections with other types where it's ok
+    '@typescript-eslint/ban-types': ['warn', { types: { '{}': false } }],
     '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-empty-function': 'off',
