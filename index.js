@@ -84,6 +84,10 @@ const config = {
       parserOptions: { sourceType: 'script' },
       rules: {},
     },
+    {
+      files: '**/*.json',
+      rules: { quotes: 'off' },
+    },
   ],
 };
 
