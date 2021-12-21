@@ -208,4 +208,22 @@ if (isPackageInstalled('rollup')) {
   });
 }
 
+if (isPackageInstalled('@storybook/core')) {
+  config.overrides.push(
+    {
+      files: '**/*.stories.tsx',
+      rules: { 'import/no-default-export': 'off' },
+    },
+    {
+      files: '.storybook/**',
+      excludedFiles: '.storybook/main.js',
+      parserOptions: { sourceType: 'module' },
+    },
+    {
+      files: '.storybook/main.js',
+      env: { node: true },
+    },
+  );
+}
+
 module.exports = config;
