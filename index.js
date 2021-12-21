@@ -81,18 +81,14 @@ const config = {
     },
     {
       files: '**/*.js',
-      parserOptions: {
-        sourceType: 'script',
-      },
+      parserOptions: { sourceType: 'script' },
       rules: {},
     },
   ],
 };
 
 if (isPackageInstalled('react')) {
-  config.settings.react = {
-    version: 'detect',
-  };
+  config.settings.react = { version: 'detect' };
 
   config.extends.push(
     'plugin:react/recommended',
@@ -147,9 +143,7 @@ if (isPackageInstalled('typescript')) {
 
   config.overrides.push({
     files: '**/*.d.ts',
-    rules: {
-      'import/no-default-export': 'off',
-    },
+    rules: { 'import/no-default-export': 'off' },
   });
 }
 
@@ -193,9 +187,7 @@ if (isPackageInstalled('next')) {
   config.overrides.push(
     {
       files: 'pages/**',
-      rules: {
-        'import/no-default-export': 'off',
-      },
+      rules: { 'import/no-default-export': 'off' },
     },
     {
       files: ['next.config.js', 'pages/api/**'],
@@ -207,12 +199,8 @@ if (isPackageInstalled('next')) {
 if (isPackageInstalled('rollup')) {
   config.overrides.push({
     files: 'rollup.config.js',
-    parserOptions: {
-      sourceType: 'module',
-    },
-    rules: {
-      'import/no-default-export': 'off',
-    },
+    parserOptions: { sourceType: 'module' },
+    rules: { 'import/no-default-export': 'off' },
   });
 }
 
