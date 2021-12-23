@@ -18,6 +18,7 @@
   ],
   "files": [
     "checkDeps.js",
+    "config.js",
     "index.js",
     "isPackageInstalled.js",
     "restrictedGlobals.js"
