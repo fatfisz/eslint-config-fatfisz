@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-fatfisz",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "ESLint config for the FatFisz coding standard",
   "main": "index.js",
   "homepage": "https://github.com/fatfisz/eslint-config-fatfisz",
