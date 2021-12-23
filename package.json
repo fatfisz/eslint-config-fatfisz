@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-fatfisz",
+  "name": "eslint-plugin-fatfisz",
   "version": "4.0.1",
   "description": "ESLint config for the FatFisz coding standard",
   "main": "index.js",
@@ -14,6 +14,8 @@
     "config",
     "eslint",
     "eslintconfig",
+    "eslintplugin",
+    "plugin",
     "styleguide"
   ],
   "files": [
