@@ -19,11 +19,8 @@
     "styleguide"
   ],
   "files": [
-    "checkDeps.js",
-    "config.js",
     "index.js",
-    "isPackageInstalled.js",
-    "restrictedGlobals.js"
+    "src"
   ],
   "scripts": {
     "lint:ci": "eslint . --max-warnings 0"

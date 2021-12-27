@@ -3,7 +3,7 @@
 module.exports = {
   root: true,
 
-  extends: ['./config.js'],
+  extends: ['./src/config.js'],
 
   overrides: [
     {
