@@ -23,7 +23,8 @@
     "src"
   ],
   "scripts": {
-    "lint:ci": "eslint . --max-warnings 0"
+    "lint": "eslint .",
+    "lint:ci": "yarn lint --max-warnings 0"
   },
   "dependencies": {
     "eslint-config-prettier": "8",
