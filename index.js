@@ -6,4 +6,7 @@ module.exports = {
   configs: {
     config,
   },
+  rules: {
+    'imports/statement-order': require('./src/rules/imports/statement-order'),
+  },
 };
