@@ -1,10 +1,8 @@
-'use strict';
-
-exports.isPackageInstalled = function isPackageInstalled(name) {
+export function isPackageInstalled(name: string) {
   try {
     require.resolve(name);
     return true;
   } catch {
     return false;
   }
-};
+}

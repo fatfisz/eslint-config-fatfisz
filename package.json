@@ -20,11 +20,14 @@
   ],
   "files": [
     "index.js",
-    "src"
+    "lib"
   ],
   "scripts": {
+    "build": "tsc",
+    "build:watch": "yarn build --watch",
     "lint": "eslint .",
     "lint:ci": "yarn lint --max-warnings 0",
+    "lint:fix": "yarn lint --fix",
     "test": "mocha \"tests/**\"",
     "test:watch": "yarn test --watch"
   },
@@ -36,12 +39,17 @@
     "prettier": "2"
   },
   "devDependencies": {
+    "@types/eslint": "8",
+    "@types/estree": "0",
+    "@types/node": "17",
     "@typescript-eslint/eslint-plugin": "5",
     "@typescript-eslint/parser": "5",
+    "@typescript-eslint/types": "5",
     "eslint": "8",
     "eslint-plugin-react": "7",
     "eslint-plugin-react-hooks": "4",
     "mocha": "9",
+    "type-fest": "2",
     "typescript": "4"
   },
   "peerDependencies": {

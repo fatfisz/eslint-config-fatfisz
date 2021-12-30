@@ -3,9 +3,7 @@
  * pollute the global scope.
  */
 
-'use strict';
-
-const globals = require('globals');
+import globals from 'globals';
 
 const browserGlobals = Object.keys(globals.browser);
 const blacklist = new Set(['Text']);
@@ -18,6 +16,6 @@ const whitelist = new Set([
   'window',
 ]);
 
-exports.restrictedGlobals = browserGlobals
+export const restrictedGlobals = browserGlobals
   .filter((name) => blacklist.has(name) || !whitelist.has(name))
   .map((name) => ({ name, message: `Use window.${name} instead.` }));

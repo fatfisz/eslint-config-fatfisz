@@ -1,12 +1,16 @@
-'use strict';
+import { Linter } from 'eslint';
+import { Merge, SetRequired } from 'type-fest';
 
-const { checkDeps } = require('./checkDeps');
-const { isPackageInstalled } = require('./isPackageInstalled');
-const { restrictedGlobals } = require('./restrictedGlobals');
+import { checkDeps } from './checkDeps';
+import { isPackageInstalled } from './isPackageInstalled';
+import { restrictedGlobals } from './restrictedGlobals';
 
 checkDeps();
 
-const config = {
+export const config: Merge<
+  SetRequired<Linter.Config, 'overrides' | 'plugins' | 'rules' | 'settings'>,
+  { extends: string[] }
+> = {
   settings: {},
 
   extends: ['eslint:recommended', 'prettier'],
@@ -138,7 +142,7 @@ if (isPackageInstalled('typescript')) {
     'no-unused-vars': 'off',
   });
 
-  Object.assign(config.overrides.find((override) => override.files === '**/*.js').rules, {
+  Object.assign(config.overrides.find((override) => override.files === '**/*.js')?.rules, {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
@@ -225,5 +229,3 @@ if (isPackageInstalled('@storybook/core')) {
     },
   );
 }
-
-module.exports = config;

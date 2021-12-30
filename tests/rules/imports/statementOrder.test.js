@@ -54,7 +54,7 @@ const itemToName = {
 new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-}).run('imports/statement-order', require('../../../src/rules/imports/statement-order'), {
+}).run('imports/statement-order', require('../../../lib/rules/imports/statementOrder').rule, {
   valid: [
     ...generateValidPairs(
       [importModule],

@@ -1,12 +1,12 @@
 'use strict';
 
-const config = require('./src/config');
+const { config } = require('./lib/config');
 
 module.exports = {
   configs: {
     config,
   },
   rules: {
-    'imports/statement-order': require('./src/rules/imports/statement-order'),
+    'imports/statement-order': require('./lib/rules/imports/statementOrder').rule,
   },
 };

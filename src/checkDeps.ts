@@ -1,9 +1,7 @@
-'use strict';
+import { isPackageInstalled } from './isPackageInstalled';
 
-const { isPackageInstalled } = require('./isPackageInstalled');
-
-exports.checkDeps = function checkDeps() {
-  const missingPackages = [];
+export function checkDeps() {
+  const missingPackages: string[] = [];
 
   if (isPackageInstalled('react')) {
     checkRequiredPackages('eslint-plugin-react', 'eslint-plugin-react-hooks');
@@ -26,7 +24,7 @@ Run \`yarn add -ED ${missingPackages.join(' ')}\`
   `);
   }
 
-  function checkRequiredPackages(...requiredPackages) {
+  function checkRequiredPackages(...requiredPackages: string[]) {
     missingPackages.push(...requiredPackages.filter((name) => !isPackageInstalled(name)));
   }
-};
+}
