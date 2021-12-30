@@ -26,10 +26,11 @@
     "build": "tsc",
     "build:watch": "yarn build --watch",
     "lint": "eslint .",
-    "lint:ci": "yarn lint --max-warnings 0",
     "lint:fix": "yarn lint --fix",
     "test": "mocha \"tests/**\"",
-    "test:watch": "yarn test --watch"
+    "test:watch": "yarn test --watch",
+    "verify:ci": "yarn build && yarn verify:no-changes && yarn lint --max-warnings 0 && yarn test",
+    "verify:no-changes": "node ./verifyNoChanges"
   },
   "dependencies": {
     "eslint-config-prettier": "8",
@@ -49,6 +50,7 @@
     "eslint-plugin-react": "7",
     "eslint-plugin-react-hooks": "4",
     "mocha": "9",
+    "simple-git": "2",
     "type-fest": "2",
     "typescript": "4"
   },
