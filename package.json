@@ -27,9 +27,11 @@
     "build:watch": "yarn build --watch",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
+    "prepublish": "yarn verify",
     "test": "mocha \"tests/**\"",
     "test:watch": "yarn test --watch",
-    "verify:ci": "yarn build && yarn verify:no-changes && yarn lint --max-warnings 0 && yarn test",
+    "verify": "yarn build && yarn lint --max-warnings 0 && yarn test",
+    "verify:ci": "yarn verify && yarn verify:no-changes",
     "verify:no-changes": "node ./verifyNoChanges"
   },
   "dependencies": {
