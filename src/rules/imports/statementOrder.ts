@@ -46,7 +46,8 @@ const simpleTypeToOrder = Object.fromEntries(
 function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
   const statementsWithTypes: [SimpleType, TSESTree.ProgramStatement][] = [];
   for (const statement of program.body) {
-    const simpleType = getSimpleType(statement);
+    const sourceCode = context.getSourceCode();
+    const simpleType = getSimpleType(sourceCode, statement);
     const lastSimpleType = getLastSimpleType(statementsWithTypes);
     const errorMessageId = lastSimpleType && getErrorMessageId(lastSimpleType, simpleType);
     if (errorMessageId) {
@@ -54,7 +55,6 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
         statementsWithTypes,
         simpleType,
       );
-      const sourceCode = context.getSourceCode();
       const range = getRangeWithCommentsAndWhitespace(sourceCode, statement);
       context.report({
         loc: getLocFromRange(sourceCode, range),
@@ -72,9 +72,9 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
   }
 }
 
-function getSimpleType(statement: TSESTree.ProgramStatement): SimpleType {
+function getSimpleType(sourceCode: SourceCode, statement: TSESTree.ProgramStatement): SimpleType {
   return statement.type === 'ImportDeclaration'
-    ? statement.specifiers.length === 0
+    ? hasNoSpecifiers(sourceCode, statement)
       ? 'importModule'
       : statement.importKind === 'type'
       ? 'importType'
@@ -125,6 +125,14 @@ function getErrorMessageId(
   }
 }
 
+function getLastSimpleType(
+  statementsWithTypes: [SimpleType, TSESTree.ProgramStatement][],
+): SimpleType | undefined {
+  return statementsWithTypes.length > 0
+    ? statementsWithTypes[statementsWithTypes.length - 1][0]
+    : undefined;
+}
+
 function getLastProperlyOrderedStatement(
   statementsWithTypes: [SimpleType, TSESTree.ProgramStatement][],
   simpleType: SimpleType,
@@ -140,12 +148,13 @@ function getLastProperlyOrderedStatement(
   return { range: [0, 0] };
 }
 
-function getLastSimpleType(
-  statementsWithTypes: [SimpleType, TSESTree.ProgramStatement][],
-): SimpleType | undefined {
-  return statementsWithTypes.length > 0
-    ? statementsWithTypes[statementsWithTypes.length - 1][0]
-    : undefined;
+function hasNoSpecifiers(sourceCode: SourceCode, importStatement: TSESTree.ImportDeclaration) {
+  return (
+    importStatement.specifiers.length === 0 &&
+    (importStatement.importKind === 'type'
+      ? sourceCode.getFirstToken(importStatement, 2)?.type !== 'Punctuator'
+      : sourceCode.getFirstToken(importStatement, 1)?.type !== 'Punctuator')
+  );
 }
 
 function isAnyImportType(simpleType: SimpleType) {

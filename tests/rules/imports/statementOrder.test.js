@@ -6,10 +6,12 @@ const importModule = "import 'a';";
 
 const importAllType = "import type * as AllImports from 'a';";
 const importDefaultType = "import type DefaultImport from 'a';";
+const importEmptyType = "import type {} from 'a';";
 const importNamedType = "import type { NamedImport } from 'a';";
 
 const importAll = "import * as allImports from 'a';";
 const importDefault = "import defaultImport from 'a';";
+const importEmpty = "import {} from 'a';";
 const importNamed = "import { namedImport } from 'a';";
 
 const reexportAllType = "export type * as ReexportedAll from 'a';";
@@ -18,8 +20,10 @@ const reexportNamedType = "export type { ReexportedNamed } from 'a';";
 const reexportAll = "export * from 'a';";
 const reexportNamed = "export { reexportedNamed } from 'a';";
 
+const exportEmptyTypes = 'export type {};';
 const exportTypes = 'export type { Named };';
 
+const exportEmpty = 'export {};';
 const exportNamed = 'export { named };';
 
 const exportConst = 'export const constExport = 42;';
@@ -30,25 +34,29 @@ const exportType = 'export type NamedExport = 42;';
 const expression = '42;';
 
 const itemToName = {
-  [importModule]: 'import a module',
-  [importAllType]: 'import all types from a module',
-  [importDefaultType]: 'import a default type',
-  [importNamedType]: 'import a type',
-  [importAll]: 'import all',
-  [importDefault]: 'import a default value',
-  [importNamed]: 'import a value',
-  [reexportAllType]: 're-export all types',
-  [reexportNamedType]: 're-export types',
-  [reexportAll]: 're-export all values',
-  [reexportNamed]: 're-export values',
-  [exportTypes]: 'export types',
-  [exportNamed]: 'export values',
   [exportConst]: 'export a constant',
   [exportDefault]: 'export a default value',
   [exportDestructured]: 'export from destructuring',
+  [exportEmpty]: 'export nothing',
+  [exportEmptyTypes]: 'export no types',
   [exportFunction]: 'export a function',
+  [exportNamed]: 'export values',
   [exportType]: 'export a type',
+  [exportTypes]: 'export types',
   [expression]: 'a statement',
+  [importAll]: 'import all',
+  [importAllType]: 'import all types from a module',
+  [importDefault]: 'import a default value',
+  [importDefaultType]: 'import a default type',
+  [importEmpty]: 'import nothing',
+  [importEmptyType]: 'import no type',
+  [importModule]: 'import a module',
+  [importNamed]: 'import a value',
+  [importNamedType]: 'import a type',
+  [reexportAll]: 're-export all values',
+  [reexportAllType]: 're-export all types',
+  [reexportNamed]: 're-export values',
+  [reexportNamedType]: 're-export types',
 };
 
 new RuleTester({
@@ -58,12 +66,12 @@ new RuleTester({
   valid: [
     ...generateValidPairs(
       [importModule],
-      [importAllType, importDefaultType, importNamedType],
-      [importAll, importDefault, importNamed],
+      [importAllType, importDefaultType, importEmptyType, importNamedType],
+      [importAll, importDefault, importEmpty, importNamed],
       [reexportAllType, reexportNamedType],
       [reexportAll, reexportNamed],
-      [exportTypes],
-      [exportNamed],
+      [exportEmptyTypes, exportTypes],
+      [exportEmpty, exportNamed],
       [exportConst, exportDefault, exportDestructured, exportFunction, exportType, expression],
     ),
   ],
@@ -75,6 +83,8 @@ new RuleTester({
         importAllType,
         importDefault,
         importDefaultType,
+        importEmpty,
+        importEmptyType,
         importModule,
         importNamed,
         importNamedType,
@@ -82,12 +92,23 @@ new RuleTester({
       'importAfterStatement',
     ),
     ...generateInvalidPairs(
-      [exportNamed, exportTypes, reexportAll, reexportAllType, reexportNamed, reexportNamedType],
+      [
+        exportEmpty,
+        exportEmptyTypes,
+        exportNamed,
+        exportTypes,
+        reexportAll,
+        reexportAllType,
+        reexportNamed,
+        reexportNamedType,
+      ],
       [
         importAll,
         importAllType,
         importDefault,
         importDefaultType,
+        importEmpty,
+        importEmptyType,
         importModule,
         importNamed,
         importNamedType,
@@ -95,26 +116,48 @@ new RuleTester({
       'importAfterExport',
     ),
     ...generateInvalidPairs(
-      [importAll, importDefault, importNamed],
-      [importAllType, importDefaultType, importNamedType],
+      [importAll, importDefault, importEmpty, importNamed],
+      [importAllType, importDefaultType, importEmptyType, importNamedType],
       'importTypeAfterImport',
     ),
     ...generateInvalidPairs(
-      [importAll, importAllType, importDefault, importDefaultType, importNamed, importNamedType],
+      [
+        importAll,
+        importAllType,
+        importDefault,
+        importDefaultType,
+        importEmpty,
+        importEmptyType,
+        importNamed,
+        importNamedType,
+      ],
       [importModule],
       'importModuleAfterImport',
     ),
     ...generateInvalidPairs(
       [exportConst, exportDefault, exportDestructured, exportFunction, exportType, expression],
-      [exportNamed, exportTypes, reexportAll, reexportAllType, reexportNamed, reexportNamedType],
+      [
+        exportEmpty,
+        exportEmptyTypes,
+        exportNamed,
+        exportTypes,
+        reexportAll,
+        reexportAllType,
+        reexportNamed,
+        reexportNamedType,
+      ],
       'exportAfterStatement',
     ),
     ...generateInvalidPairs(
-      [exportNamed, exportTypes],
+      [exportEmpty, exportEmptyTypes, exportNamed, exportTypes],
       [reexportAll, reexportAllType, reexportNamed, reexportNamedType],
       'reexportAfterExport',
     ),
-    ...generateInvalidPairs([exportNamed], [exportTypes], 'exportTypeAfterExport'),
+    ...generateInvalidPairs(
+      [exportEmpty, exportNamed],
+      [exportEmptyTypes, exportTypes],
+      'exportTypeAfterExport',
+    ),
     ...generateInvalidPairs(
       [reexportAll, reexportNamed],
       [reexportAllType, reexportNamedType],
