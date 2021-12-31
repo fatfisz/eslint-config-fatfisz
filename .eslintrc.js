@@ -1,18 +1,15 @@
 'use strict';
 
-const { config } = require('./lib/config');
-
-const { overrides, ...configRest } = config;
-
 module.exports = {
-  ...configRest,
-
   root: true,
 
   ignorePatterns: ['/lib'],
 
+  extends: ['plugin:self/config'],
+
+  plugins: ['self'],
+
   overrides: [
-    ...overrides,
     {
       files: '**/*.js',
       env: { node: true },

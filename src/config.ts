@@ -61,6 +61,8 @@ export const config: Merge<
         trailingComma: 'all',
       },
     ],
+
+    'fatfisz/imports/statement-order': 'warn',
   },
 
   overrides: [
