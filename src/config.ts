@@ -15,7 +15,7 @@ export const config: Merge<
 
   extends: ['eslint:recommended', 'prettier'],
 
-  plugins: ['prettier'],
+  plugins: ['fatfisz', 'prettier'],
 
   env: { es2020: true, 'shared-node-browser': true },
 

@@ -7,8 +7,6 @@ module.exports = {
 
   extends: ['plugin:self/config'],
 
-  plugins: ['self'],
-
   overrides: [
     {
       files: '**/*.js',
