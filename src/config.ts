@@ -1,9 +1,9 @@
 import { Linter } from 'eslint';
 import { Merge, SetRequired } from 'type-fest';
 
-import { checkDeps } from './checkDeps';
-import { isPackageInstalled } from './isPackageInstalled';
-import { restrictedGlobals } from './restrictedGlobals';
+import { checkDeps } from 'checkDeps';
+import { isPackageInstalled } from 'isPackageInstalled';
+import { restrictedGlobals } from 'restrictedGlobals';
 
 checkDeps();
 
