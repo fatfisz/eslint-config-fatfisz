@@ -27,7 +27,7 @@
     "build:watch": "yarn build --watch",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
-    "prepublish": "yarn verify",
+    "prepack": "yarn verify",
     "test": "mocha \"tests/**\"",
     "test:watch": "yarn test --watch",
     "verify": "yarn build && yarn lint --max-warnings 0 && yarn test",
