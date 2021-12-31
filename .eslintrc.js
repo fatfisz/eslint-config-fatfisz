@@ -19,7 +19,7 @@ module.exports = {
     },
     {
       files: './src/rules/**/*.ts',
-      rules: { 'import/no-default-export': 'off' },
+      // rules: { 'import/no-default-export': 'off' },
     },
   ],
 };

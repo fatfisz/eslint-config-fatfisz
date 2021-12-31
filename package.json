@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "eslint-config-prettier": "8",
-    "eslint-plugin-import": "2.25",
     "eslint-plugin-prettier": "4",
     "globals": "13",
     "prettier": "2"
@@ -59,7 +58,6 @@
   "peerDependencies": {
     "eslint": "8",
     "eslint-config-prettier": "8",
-    "eslint-plugin-import": "2.25",
     "eslint-plugin-prettier": "4",
     "prettier": "2"
   }

@@ -15,7 +15,7 @@ export const config: Merge<
 
   extends: ['eslint:recommended', 'prettier'],
 
-  plugins: ['import', 'prettier'],
+  plugins: ['prettier'],
 
   env: { es2020: true, 'shared-node-browser': true },
 
@@ -52,21 +52,6 @@ export const config: Merge<
       },
     ],
     strict: ['warn', 'global'],
-
-    'import/first': 'warn',
-    'import/newline-after-import': 'warn',
-    'import/no-default-export': 'warn',
-    'import/no-duplicates': 'warn',
-    'import/order': [
-      'warn',
-      {
-        'newlines-between': 'always',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
-      },
-    ],
 
     'prettier/prettier': [
       'warn',
