@@ -165,33 +165,66 @@ new RuleTester({
     ),
     {
       name: 'skips multiple statements when fixing',
-      code: "1;\n2;\n3;\nimport 'a';\n",
+      code: `1;
+2;
+3;
+import 'a';
+`,
       errors: [{ messageId: 'importAfterStatement', line: 4, column: 1, endLine: 5, endColumn: 1 }],
-      output: "import 'a';\n1;\n2;\n3;\n",
+      output: `import 'a';
+1;
+2;
+3;
+`,
     },
     {
       name: 'skips multiple imports when fixing',
-      code: "import { b } from 'b';\nimport { c } from 'c';\nimport { d } from 'd';\nimport 'a';\n",
+      code: `import { b } from 'b';
+import { c } from 'c';
+import { d } from 'd';
+import 'a';
+`,
       errors: [
         { messageId: 'importModuleAfterImport', line: 4, column: 1, endLine: 5, endColumn: 1 },
       ],
-      output:
-        "import 'a';\nimport { b } from 'b';\nimport { c } from 'c';\nimport { d } from 'd';\n",
+      output: `import 'a';
+import { b } from 'b';
+import { c } from 'c';
+import { d } from 'd';
+`,
     },
     {
       name: 'reports multiple errors',
-      code: "1;\n2;\n3;\nexport * from 'a';\nimport 'a';\n",
+      code: `1;
+2;
+3;
+export * from 'a';
+import 'a';
+`,
       errors: [
         { messageId: 'exportAfterStatement', line: 4, column: 1, endLine: 5, endColumn: 1 },
         { messageId: 'importAfterExport', line: 5, column: 1, endLine: 6, endColumn: 1 },
       ],
-      output: "export * from 'a';\n1;\n2;\n3;\nimport 'a';\n",
+      output: `export * from 'a';
+1;
+2;
+3;
+import 'a';
+`,
     },
     {
       name: 'moves all whitespace up to the next new line',
-      code: "1;\nimport 'a';  \t\n2;\n",
+      code: `1;
+import 'a';  \t
+
+2;
+`,
       errors: [{ messageId: 'importAfterStatement', line: 2, column: 1, endLine: 3, endColumn: 1 }],
-      output: "import 'a';  \t\n1;\n2;\n",
+      output: `import 'a';  \t
+1;
+
+2;
+`,
     },
     {
       name: 'moves comments from the same line',

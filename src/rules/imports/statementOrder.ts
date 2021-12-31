@@ -173,7 +173,7 @@ function isReexportType(simpleType: SimpleType): boolean {
   return simpleType === 'reexportType' || simpleType === 'reexport';
 }
 
-const whitespaceRegexp = /\s/;
+const whitespaceRegexp = /[^\S\n\r]/;
 
 function getRangeWithCommentsAndWhitespace(sourceCode: SourceCode, node: TSESTree.Node): AST.Range {
   const text = sourceCode.getText();
