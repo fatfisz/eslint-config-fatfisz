@@ -7,6 +7,6 @@ module.exports = {
     config,
   },
   rules: {
-    'imports/statement-order': require('./lib/rules/imports/statementOrder').rule,
+    'import/first': require('./lib/rules/import/first').rule,
   },
 };

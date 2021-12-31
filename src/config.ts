@@ -62,7 +62,7 @@ export const config: Merge<
       },
     ],
 
-    'fatfisz/imports/statement-order': 'warn',
+    'fatfisz/import/first': 'warn',
   },
 
   overrides: [
