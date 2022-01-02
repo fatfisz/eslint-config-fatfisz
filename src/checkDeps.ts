@@ -8,11 +8,7 @@ export function checkDeps() {
   }
 
   if (isPackageInstalled('typescript')) {
-    checkRequiredPackages(
-      '@typescript-eslint/eslint-plugin',
-      '@typescript-eslint/parser',
-      'typescript',
-    );
+    checkRequiredPackages('@typescript-eslint/eslint-plugin', '@typescript-eslint/parser');
   }
 
   if (missingPackages.length > 0) {
