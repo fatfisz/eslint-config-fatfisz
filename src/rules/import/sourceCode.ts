@@ -14,7 +14,7 @@ export function getRangeWithCommentsAndWhitespace(
   const commentsBefore = sourceCode.getCommentsBefore(node as Node).reverse() as TSESTree.Comment[];
   const commentsAfter = sourceCode.getCommentsAfter(node as Node) as TSESTree.Comment[];
   const minStartLine = tokenBefore ? tokenBefore.loc.end.line : 0;
-  const maxEndLine = tokenAfter ? tokenAfter.loc.start.line : 0;
+  const maxEndLine = tokenAfter ? tokenAfter.loc.start.line : Infinity;
   let startLine = node.loc.start.line;
   const endLine = node.loc.end.line;
   let [start, end] = node.range;

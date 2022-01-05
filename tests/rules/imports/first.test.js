@@ -247,6 +247,24 @@ import 'a';  \t
 `,
     },
     {
+      name: 'moves comments from the same line even if there are no tokens after',
+      code: `1;
+/**
+ * this moves
+ */ /* this too */ import {
+  something, // This is very useful
+} from 'a'; /* comment */ // inline comment
+`,
+      errors: [{ messageId: 'importAfterStatement', line: 2, column: 1, endLine: 7, endColumn: 1 }],
+      output: `/**
+ * this moves
+ */ /* this too */ import {
+  something, // This is very useful
+} from 'a'; /* comment */ // inline comment
+1;
+`,
+    },
+    {
       name: 'moves comments on preceding lines',
       code: `1;
 /* this stays */ // this also stays
