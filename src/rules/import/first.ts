@@ -1,3 +1,5 @@
+import { TSESTree } from '@typescript-eslint/types';
+import { AST, Rule } from 'eslint';
 import {
   getImportType,
   ImportType,
@@ -8,8 +10,6 @@ import {
   isReexportType,
 } from './importType';
 import { getLocFromRange, getRangeWithCommentsAndWhitespace, getTextFromRange } from './sourceCode';
-import { TSESTree } from '@typescript-eslint/types';
-import { AST, Rule } from 'eslint';
 
 type Message = keyof typeof messages;
 

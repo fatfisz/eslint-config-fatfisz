@@ -1,8 +1,10 @@
-import { checkDeps } from 'checkDeps';
+import getBuiltins from 'builtins';
 import { Linter } from 'eslint';
+import { Merge, SetRequired } from 'type-fest';
+import { checkDeps } from 'checkDeps';
+import { getPackages } from 'getPackages';
 import { isPackageInstalled } from 'isPackageInstalled';
 import { restrictedGlobals } from 'restrictedGlobals';
-import { Merge, SetRequired } from 'type-fest';
 
 checkDeps();
 
@@ -10,7 +12,10 @@ export const config: Merge<
   SetRequired<Linter.Config, 'overrides' | 'plugins' | 'rules' | 'settings'>,
   { extends: string[] }
 > = {
-  settings: {},
+  settings: {
+    'fatfisz/imports/builtins': getBuiltins(),
+    'fatfisz/imports/packages': getPackages(),
+  },
 
   extends: ['eslint:recommended', 'prettier'],
 
