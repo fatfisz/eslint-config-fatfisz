@@ -28,7 +28,7 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
     "prepack": "yarn verify",
-    "test": "mocha \"tests/**\"",
+    "test": "mocha \"tests/**/*.test.js\"",
     "test:watch": "yarn test --watch",
     "verify": "yarn build && yarn lint --max-warnings 0 && yarn test",
     "verify:ci": "yarn verify && yarn verify:no-changes",

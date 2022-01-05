@@ -5,7 +5,7 @@ const { RuleTester } = require('eslint');
 new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-}).run('fatfisz/import/sort', require('../../../lib').rules['import/sort'], {
+}).run('fatfisz/import/sort', require('../../utils').getLib().rules['import/sort'], {
   valid: [
     {
       name: 'does not sort if there are imports of a different type between',

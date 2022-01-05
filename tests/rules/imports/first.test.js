@@ -62,7 +62,7 @@ const itemToName = {
 new RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-}).run('fatfisz/import/first', require('../../../lib').rules['import/first'], {
+}).run('fatfisz/import/first', require('../../utils').getLib().rules['import/first'], {
   valid: [
     ...generateValidPairs(
       [importModule],
