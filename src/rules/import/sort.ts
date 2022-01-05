@@ -91,7 +91,10 @@ function checkOrder(
   }
 }
 
-const collator = new Intl.Collator('en', { numeric: true });
+const collator = new Intl.Collator('en', {
+  sensitivity: 'base',
+  numeric: true,
+});
 
 function comparePaths(packages: Set<string>, pathA: string, pathB: string) {
   return (

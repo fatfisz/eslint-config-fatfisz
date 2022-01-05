@@ -13,8 +13,7 @@ new RuleTester({
         'fatfisz/imports/builtins': ['@p/builtin', '@r/builtin', 'n-builtin'],
         'fatfisz/imports/packages': ['@q/package', 'm-package', 'o-package'],
       },
-      code: `
-import '@p/builtin';
+      code: `import '@p/builtin';
 import '@q/package';
 import '@r/builtin';
 import 'm-package';
@@ -32,6 +31,25 @@ import '../c';
 import '../d';
 import './a';
 import './b';
+`,
+    },
+    {
+      name: 'ignores casing and diacritic marks',
+      code: `import 'aa';
+import 'Ab';
+import 'ac';
+import 'ąd';
+import 'ae';
+`,
+    },
+    {
+      name: 'sorts numerically',
+      code: `import 'a1';
+import 'a2';
+import 'a10';
+import 'b1-whatever';
+import 'b2-whatever';
+import 'b10-whatever';
 `,
     },
     {
@@ -298,6 +316,46 @@ import '../../b';
       errors: [{ messageId: 'wrongOrder', line: 2, column: 1, endLine: 3, endColumn: 1 }],
       output: `import '../../b';
 import '../a';
+`,
+    },
+    {
+      name: 'ignores casing and diacritic marks (upper before lower)',
+      code: `import 'Ab';
+import 'aa';
+`,
+      errors: [{ messageId: 'wrongOrder', line: 2, column: 1, endLine: 3, endColumn: 1 }],
+      output: `import 'aa';
+import 'Ab';
+`,
+    },
+    {
+      name: 'ignores casing and diacritic marks (lower before upper)',
+      code: `import 'ab';
+import 'Aa';
+`,
+      errors: [{ messageId: 'wrongOrder', line: 2, column: 1, endLine: 3, endColumn: 1 }],
+      output: `import 'Aa';
+import 'ab';
+`,
+    },
+    {
+      name: 'sorts numerically (same number of digits)',
+      code: `import 'a2';
+import 'a1';
+`,
+      errors: [{ messageId: 'wrongOrder', line: 2, column: 1, endLine: 3, endColumn: 1 }],
+      output: `import 'a1';
+import 'a2';
+`,
+    },
+    {
+      name: 'sorts numerically (different number of digits)',
+      code: `import 'a10';
+import 'a2';
+`,
+      errors: [{ messageId: 'wrongOrder', line: 2, column: 1, endLine: 3, endColumn: 1 }],
+      output: `import 'a2';
+import 'a10';
 `,
     },
   ],
