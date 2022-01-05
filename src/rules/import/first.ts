@@ -8,8 +8,12 @@ import {
   isAnyImportType,
   isExportType,
   isReexportType,
-} from './importType';
-import { getLocFromRange, getRangeWithCommentsAndWhitespace, getTextFromRange } from './sourceCode';
+} from './util/importType';
+import {
+  getLocFromRange,
+  getRangeWithCommentsAndWhitespace,
+  getTextFromRange,
+} from './util/sourceCode';
 
 type Message = keyof typeof messages;
 

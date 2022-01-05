@@ -1,8 +1,12 @@
 import { TSESTree } from '@typescript-eslint/types';
 import { Rule } from 'eslint';
 import { isAbsolute, normalize, sep } from 'path';
-import { getImportSource, getImportType, ImportType } from './importType';
-import { getLocFromRange, getRangeWithCommentsAndWhitespace, getTextFromRange } from './sourceCode';
+import { getImportSource, getImportType, ImportType } from './util/importType';
+import {
+  getLocFromRange,
+  getRangeWithCommentsAndWhitespace,
+  getTextFromRange,
+} from './util/sourceCode';
 
 export const rule: Rule.RuleModule = {
   meta: {
