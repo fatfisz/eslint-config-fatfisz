@@ -43,3 +43,15 @@ export function getRangeWithCommentsAndWhitespace(
   }
   return [start, end];
 }
+
+export function getLocFromRange(sourceCode: SourceCode, range: AST.Range): AST.SourceLocation {
+  return {
+    start: sourceCode.getLocFromIndex(range[0]),
+    end: sourceCode.getLocFromIndex(range[1]),
+  };
+}
+
+export function getTextFromRange(sourceCode: SourceCode, range: AST.Range): string {
+  const text = sourceCode.getText();
+  return text.slice(range[0], range[1]);
+}

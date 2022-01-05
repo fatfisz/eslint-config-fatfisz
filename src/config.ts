@@ -1,9 +1,8 @@
-import { Linter } from 'eslint';
-import { Merge, SetRequired } from 'type-fest';
-
 import { checkDeps } from 'checkDeps';
+import { Linter } from 'eslint';
 import { isPackageInstalled } from 'isPackageInstalled';
 import { restrictedGlobals } from 'restrictedGlobals';
+import { Merge, SetRequired } from 'type-fest';
 
 checkDeps();
 
@@ -63,6 +62,7 @@ export const config: Merge<
     ],
 
     'fatfisz/import/first': 'warn',
+    'fatfisz/import/sort': 'warn',
   },
 
   overrides: [

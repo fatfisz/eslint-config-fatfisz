@@ -40,6 +40,16 @@ export function getImportType(
     : 'statement';
 }
 
+export function getImportSource(
+  statement: TSESTree.ProgramStatement,
+): TSESTree.StringLiteral | null {
+  return statement.type === 'ImportDeclaration' ||
+    statement.type === 'ExportNamedDeclaration' ||
+    statement.type === 'ExportAllDeclaration'
+    ? statement.source
+    : null;
+}
+
 export function isAnyImportType(importType: ImportType) {
   return (
     importType === 'moduleImport' || importType === 'typeImport' || importType === 'valueImport'

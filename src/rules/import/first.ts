@@ -1,6 +1,3 @@
-import { TSESTree } from '@typescript-eslint/types';
-import { AST, Rule, SourceCode } from 'eslint';
-import { getRangeWithCommentsAndWhitespace } from './getRangeWithCommentsAndWhitespace';
 import {
   getImportType,
   ImportType,
@@ -10,6 +7,9 @@ import {
   isExportType,
   isReexportType,
 } from './importType';
+import { getLocFromRange, getRangeWithCommentsAndWhitespace, getTextFromRange } from './sourceCode';
+import { TSESTree } from '@typescript-eslint/types';
+import { AST, Rule } from 'eslint';
 
 type Message = keyof typeof messages;
 
@@ -38,16 +38,16 @@ export const rule: Rule.RuleModule = {
 };
 
 function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
+  const sourceCode = context.getSourceCode();
   const statementsWithTypes: [ImportType, TSESTree.ProgramStatement][] = [];
   for (const statement of program.body) {
-    const sourceCode = context.getSourceCode();
-    const simpleType = getImportType(sourceCode, statement);
-    const lastSimpleType = getLastSimpleType(statementsWithTypes);
-    const errorMessageId = lastSimpleType && getErrorMessageId(lastSimpleType, simpleType);
+    const importType = getImportType(sourceCode, statement);
+    const lastImportType = getLastImportType(statementsWithTypes);
+    const errorMessageId = lastImportType && getErrorMessageId(lastImportType, importType);
     if (errorMessageId) {
       const lastProperlyOrderedStatement = getLastProperlyOrderedStatement(
         statementsWithTypes,
-        simpleType,
+        importType,
       );
       const range = getRangeWithCommentsAndWhitespace(sourceCode, statement);
       context.report({
@@ -62,45 +62,45 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
         ],
       });
     }
-    statementsWithTypes.push([simpleType, statement]);
+    statementsWithTypes.push([importType, statement]);
   }
 }
 
 function getErrorMessageId(
-  lastSimpleType: ImportType,
-  simpleType: ImportType,
+  lastimportType: ImportType,
+  importType: ImportType,
 ): Message | undefined {
-  if (lastSimpleType === 'statement' && isAnyImportType(simpleType)) {
+  if (lastimportType === 'statement' && isAnyImportType(importType)) {
     return 'importAfterStatement';
   }
-  if (isAnyExportType(lastSimpleType) && isAnyImportType(simpleType)) {
+  if (isAnyExportType(lastimportType) && isAnyImportType(importType)) {
     return 'importAfterExport';
   }
-  if (lastSimpleType === 'valueImport' && simpleType === 'typeImport') {
+  if (lastimportType === 'valueImport' && importType === 'typeImport') {
     return 'importTypeAfterImport';
   }
   if (
-    isAnyImportType(lastSimpleType) &&
-    lastSimpleType !== 'moduleImport' &&
-    simpleType === 'moduleImport'
+    isAnyImportType(lastimportType) &&
+    lastimportType !== 'moduleImport' &&
+    importType === 'moduleImport'
   ) {
     return 'importModuleAfterImport';
   }
-  if (lastSimpleType === 'statement' && isAnyExportType(simpleType)) {
+  if (lastimportType === 'statement' && isAnyExportType(importType)) {
     return 'exportAfterStatement';
   }
-  if (isExportType(lastSimpleType) && isReexportType(simpleType)) {
+  if (isExportType(lastimportType) && isReexportType(importType)) {
     return 'reexportAfterExport';
   }
-  if (lastSimpleType === 'valueExport' && simpleType === 'typeExport') {
+  if (lastimportType === 'valueExport' && importType === 'typeExport') {
     return 'exportTypeAfterExport';
   }
-  if (lastSimpleType === 'valueReexport' && simpleType === 'typeReexport') {
+  if (lastimportType === 'valueReexport' && importType === 'typeReexport') {
     return 'reexportTypeAfterReexport';
   }
 }
 
-function getLastSimpleType(
+function getLastImportType(
   statementsWithTypes: [ImportType, TSESTree.ProgramStatement][],
 ): ImportType | undefined {
   return statementsWithTypes.length > 0
@@ -110,27 +110,15 @@ function getLastSimpleType(
 
 function getLastProperlyOrderedStatement(
   statementsWithTypes: [ImportType, TSESTree.ProgramStatement][],
-  simpleType: ImportType,
+  importType: ImportType,
 ): { range: AST.Range } {
-  const maxOrder = importTypeToOrder[simpleType];
+  const maxOrder = importTypeToOrder[importType];
   for (let index = statementsWithTypes.length - 1; index >= 0; index -= 1) {
-    const [simpleType, statement] = statementsWithTypes[index];
-    const order = importTypeToOrder[simpleType];
+    const [importType, statement] = statementsWithTypes[index];
+    const order = importTypeToOrder[importType];
     if (order <= maxOrder) {
       return statement;
     }
   }
   return { range: [0, 0] };
-}
-
-function getLocFromRange(sourceCode: SourceCode, range: AST.Range): AST.SourceLocation {
-  return {
-    start: sourceCode.getLocFromIndex(range[0]),
-    end: sourceCode.getLocFromIndex(range[1]),
-  };
-}
-
-function getTextFromRange(sourceCode: SourceCode, range: AST.Range): string {
-  const text = sourceCode.getText();
-  return text.slice(range[0], range[1]);
 }
