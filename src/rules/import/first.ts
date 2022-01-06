@@ -1,5 +1,5 @@
 import { TSESTree } from '@typescript-eslint/types';
-import { AST, Rule } from 'eslint';
+import { AST, Rule, SourceCode } from 'eslint';
 import {
   getImportType,
   ImportType,
@@ -49,7 +49,8 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
     const lastImportType = getLastImportType(statementsWithTypes);
     const errorMessageId = lastImportType && getErrorMessageId(lastImportType, importType);
     if (errorMessageId) {
-      const lastProperlyOrderedStatement = getLastProperlyOrderedStatement(
+      const previousRange = getLastProperlyOrderedStatementRange(
+        sourceCode,
         statementsWithTypes,
         importType,
       );
@@ -59,10 +60,7 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
         messageId: errorMessageId,
         fix: (fixer) => [
           fixer.removeRange(range),
-          fixer.insertTextAfterRange(
-            lastProperlyOrderedStatement.range,
-            getTextFromRange(sourceCode, range),
-          ),
+          fixer.insertTextAfterRange(previousRange, getTextFromRange(sourceCode, range)),
         ],
       });
     }
@@ -112,17 +110,18 @@ function getLastImportType(
     : undefined;
 }
 
-function getLastProperlyOrderedStatement(
+function getLastProperlyOrderedStatementRange(
+  sourceCode: SourceCode,
   statementsWithTypes: [ImportType, TSESTree.ProgramStatement][],
   importType: ImportType,
-): { range: AST.Range } {
+): AST.Range {
   const maxOrder = importTypeToOrder[importType];
   for (let index = statementsWithTypes.length - 1; index >= 0; index -= 1) {
     const [importType, statement] = statementsWithTypes[index];
     const order = importTypeToOrder[importType];
     if (order <= maxOrder) {
-      return statement;
+      return getRangeWithCommentsAndWhitespace(sourceCode, statement);
     }
   }
-  return { range: [0, 0] };
+  return [0, 0];
 }

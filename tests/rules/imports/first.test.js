@@ -324,6 +324,18 @@ import 'a'; /**
  */ 2;
 `,
     },
+    {
+      name: 'leaves comments attached to the preceding import',
+      code: `import 'a'; // comment
+1;
+import 'b';
+`,
+      errors: [{ messageId: 'importAfterStatement', line: 3, column: 1, endLine: 4, endColumn: 1 }],
+      output: `import 'a'; // comment
+import 'b';
+1;
+`,
+    },
   ],
 });
 
