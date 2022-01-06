@@ -6,10 +6,13 @@ const git = simpleGit();
 
 git.status().then((status) => {
   if (status.files.length) {
-    console.error('Changes detected:');
-    for (const { path, working_dir: workingDir } of status.files) {
-      console.error(`  ${workingDir} ${path}`);
-    }
-    process.exit(1);
+    git.diff().then((diff) => {
+      console.error('Changes detected:');
+      for (const { path, working_dir: workingDir } of status.files) {
+        console.error(`  ${workingDir} ${path}`);
+      }
+      console.error(diff);
+      process.exit(1);
+    });
   }
 });
