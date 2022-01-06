@@ -57,19 +57,15 @@ import 'b10-whatever';
       code: `import 'a';
 import 'b';
 import 'c';
-
 import type { C } from 'a';
 import type { B } from 'b';
 import type { A } from 'c';
-
 import { c } from 'a';
 import { b } from 'b';
 import { a } from 'c';
-
 export type { C } from 'a';
 export type { B } from 'b';
 export type { A } from 'c';
-
 export { c } from 'a';
 export { b } from 'b';
 export { a } from 'c';

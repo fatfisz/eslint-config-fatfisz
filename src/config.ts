@@ -67,6 +67,7 @@ export const config: Merge<
     ],
 
     'fatfisz/import/first': 'warn',
+    'fatfisz/import/newlines': 'warn',
     'fatfisz/import/sort': 'warn',
   },
 
