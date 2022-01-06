@@ -40,14 +40,12 @@ export function getImportType(
     : 'statement';
 }
 
-export function getImportSource(
-  statement: TSESTree.ProgramStatement,
-): TSESTree.StringLiteral | null {
+export function getImportSource(statement: TSESTree.ProgramStatement): string | undefined {
   return statement.type === 'ImportDeclaration' ||
     statement.type === 'ExportNamedDeclaration' ||
     statement.type === 'ExportAllDeclaration'
-    ? statement.source
-    : null;
+    ? statement.source?.value
+    : undefined;
 }
 
 export function isAnyImportType(importType: ImportType) {

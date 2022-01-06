@@ -2,6 +2,7 @@ import { TSESTree } from '@typescript-eslint/types';
 import { Rule } from 'eslint';
 import { isAbsolute, normalize, sep } from 'path';
 import { getImportSource, getImportType, ImportType } from './util/importType';
+import { getPackagesFromSettings } from './util/settings';
 import {
   getLocFromRange,
   getRangeWithCommentsAndWhitespace,
@@ -24,10 +25,7 @@ export const rule: Rule.RuleModule = {
 };
 
 function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
-  const packages = new Set([
-    ...getPackageList(context, 'fatfisz/imports/builtins'),
-    ...getPackageList(context, 'fatfisz/imports/packages'),
-  ]);
+  const packages = getPackagesFromSettings(context);
   const sourceCode = context.getSourceCode();
   const statementsWithPaths: [string, TSESTree.ProgramStatement][] = [];
   let currentImportType: ImportType | undefined;
@@ -40,29 +38,10 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
       statementsWithPaths.length = 0;
     }
     if (importSource) {
-      const path = importSource.value;
-      statementsWithPaths.push([path, statement]);
+      statementsWithPaths.push([importSource, statement]);
     }
   }
   checkOrder(context, packages, statementsWithPaths);
-}
-
-function getPackageList(context: Rule.RuleContext, key: string) {
-  const maybeArray = context.settings[key];
-  if (!maybeArray) {
-    return [];
-  }
-  if (!Array.isArray(maybeArray)) {
-    throw new Error(`Expected the "${key}" setting to be an array of paths`);
-  }
-  for (const element of maybeArray) {
-    if (typeof element !== 'string') {
-      throw new Error(
-        `Expected elements of the "${key}" setting to be strings, instead found an element of type "${typeof element}"`,
-      );
-    }
-  }
-  return maybeArray as string[];
 }
 
 function checkOrder(
