@@ -1,6 +1,7 @@
 import { TSESTree } from '@typescript-eslint/types';
-import { Rule } from 'eslint';
+import { AST, Rule, SourceCode } from 'eslint';
 import { assertNever } from 'assertNever';
+import { Node } from 'estree';
 import { getImportSource, getImportType, ImportType } from './util/importType';
 import { getPackagesFromSettings } from './util/settings';
 import { getRangeWithCommentsAndWhitespace } from './util/sourceCode';
@@ -41,6 +42,7 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
     if (previousStatement) {
       const previousRange = getRangeWithCommentsAndWhitespace(sourceCode, previousStatement);
       const range = getRangeWithCommentsAndWhitespace(sourceCode, statement);
+      console.log(getEmptyLinesBetweenTokens(sourceCode, previousRange, range));
       const endLine = sourceCode.getLocFromIndex(previousRange[1] - 1).line;
       const startLine = sourceCode.getLocFromIndex(range[0]).line;
       const diff = startLine - endLine;
@@ -77,6 +79,36 @@ function getGroup(
   }
   assertNever(importType);
 }
-// function getGroup(packages: Set<string>,  path: string): number {
-//   return packages.has(path) ? 0 : 1;
-// }
+
+function getEmptyLinesBetweenTokens(
+  sourceCode: SourceCode,
+  leftRange: AST.Range,
+  rightRange: AST.Range,
+) {
+  const lastToken = sourceCode.getLastToken({ range: leftRange } as Node, {
+    includeComments: true,
+  })!;
+  console.log({ leftRange, lastToken });
+  const firstToken = sourceCode.getFirstToken({ range: rightRange } as Node, {
+    includeComments: true,
+  })!;
+  const lastLine = lastToken.loc!.end.line;
+  const firstLine = firstToken.loc!.start.line;
+  // console.log(
+  //   require('util').inspect({ lastToken, lastLine, firstToken, firstLine }, false, null, true),
+  // );
+  if (firstLine - lastLine <= 1) {
+    return 0;
+  }
+  const tokensBetween = sourceCode.getTokensBetween(lastToken, firstToken, {
+    includeComments: true,
+  });
+  let sum = 0;
+  let line = lastLine;
+  for (const token of tokensBetween) {
+    sum += Math.max(0, token.loc!.start.line - line - 1);
+    line = token.loc!.end.line;
+  }
+  sum += Math.max(0, firstLine - line - 1);
+  return sum;
+}
