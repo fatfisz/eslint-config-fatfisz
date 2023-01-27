@@ -59,7 +59,7 @@
     "eslint-plugin-self": "1",
     "mocha": "9",
     "rollup": "2",
-    "simple-git": "2",
+    "simple-git": "3",
     "tslib": "2",
     "type-fest": "2",
     "typescript": "4"
