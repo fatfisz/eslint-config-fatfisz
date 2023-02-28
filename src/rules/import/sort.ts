@@ -3,11 +3,7 @@ import { Rule } from 'eslint';
 import { isAbsolute, normalize, sep } from 'path';
 import { getImportSource, getImportType, ImportType } from './util/importType';
 import { getPackagesFromSettings } from './util/settings';
-import {
-  getLocFromRange,
-  getRangeWithCommentsAndWhitespace,
-  getTextFromRange,
-} from './util/sourceCode';
+import { getLocFromRange, getTextFromRange, getWholeRange } from './util/sourceCode';
 
 export const rule: Rule.RuleModule = {
   meta: {
@@ -57,14 +53,14 @@ function checkOrder(
     const actual = statementsWithPaths[index][1];
     const expected = sortedStatementsWithPaths[index][1];
     if (expected !== actual) {
-      const range = getRangeWithCommentsAndWhitespace(sourceCode, expected);
+      const range = getWholeRange(sourceCode, expected).withWhitespace;
       context.report({
         loc: getLocFromRange(sourceCode, range),
         messageId: 'wrongOrder',
         fix: (fixer) => [
           fixer.removeRange(range),
           fixer.insertTextBeforeRange(
-            getRangeWithCommentsAndWhitespace(sourceCode, actual),
+            getWholeRange(sourceCode, actual).withWhitespace,
             getTextFromRange(sourceCode, range),
           ),
         ],

@@ -4,10 +4,10 @@ import { Node } from 'estree';
 
 const whitespaceRegexp = /[^\S\n\r]/;
 
-export function getRangeWithCommentsAndWhitespace(
+export function getWholeRange(
   sourceCode: SourceCode,
   node: TSESTree.Node,
-): AST.Range {
+): { withWhitespace: AST.Range; withoutWhitespace: AST.Range } {
   const text = sourceCode.getText();
   const tokenBefore = sourceCode.getTokenBefore(node as Node);
   const tokenAfter = sourceCode.getTokenAfter(node as Node);
@@ -32,16 +32,16 @@ export function getRangeWithCommentsAndWhitespace(
     }
     end = sourceCode.getIndexFromLoc(comment.loc.end);
   }
+  /** turn this thing into a regexp match */
+  const textEnd = end;
   while (end < text.length && whitespaceRegexp.test(text[end])) {
     end += 1;
   }
-  if (
-    (end < text.length && text[end] === '\n') ||
-    (end + 1 < text.length && text.slice(end, end + 2) === '\r\n')
-  ) {
+  if (text.startsWith('\n', end) || text.startsWith('\r\n', end)) {
     end += text[end] === '\n' ? 1 : 2;
   }
-  return [start, end];
+  /** up to here */
+  return { withWhitespace: [start, end], withoutWhitespace: [start, textEnd] };
 }
 
 export function getLocFromRange(sourceCode: SourceCode, range: AST.Range): AST.SourceLocation {

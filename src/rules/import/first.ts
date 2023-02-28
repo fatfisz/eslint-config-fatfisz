@@ -9,11 +9,7 @@ import {
   isExportType,
   isReexportType,
 } from './util/importType';
-import {
-  getLocFromRange,
-  getRangeWithCommentsAndWhitespace,
-  getTextFromRange,
-} from './util/sourceCode';
+import { getLocFromRange, getTextFromRange, getWholeRange } from './util/sourceCode';
 
 type Message = keyof typeof messages;
 
@@ -54,7 +50,7 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
         statementsWithTypes,
         importType,
       );
-      const range = getRangeWithCommentsAndWhitespace(sourceCode, statement);
+      const range = getWholeRange(sourceCode, statement).withWhitespace;
       context.report({
         loc: getLocFromRange(sourceCode, range),
         messageId: errorMessageId,
@@ -120,7 +116,7 @@ function getLastProperlyOrderedStatementRange(
     const [importType, statement] = statementsWithTypes[index];
     const order = importTypeToOrder[importType];
     if (order <= maxOrder) {
-      return getRangeWithCommentsAndWhitespace(sourceCode, statement);
+      return getWholeRange(sourceCode, statement).withWhitespace;
     }
   }
   return [0, 0];

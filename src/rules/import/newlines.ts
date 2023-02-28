@@ -1,21 +1,17 @@
 import { TSESTree } from '@typescript-eslint/types';
 import { AST, Rule, SourceCode } from 'eslint';
+
 import { assertNever } from 'assertNever';
 import { Node } from 'estree';
 import { getImportSource, getImportType, ImportType } from './util/importType';
 import { getPackagesFromSettings } from './util/settings';
-import { getRangeWithCommentsAndWhitespace } from './util/sourceCode';
+import { getLocFromRange, getWholeRange } from './util/sourceCode';
 
 const messages = {
-  exportAfterStatement: 'Exports should come before the code',
-  exportTypeAfterExport: 'Types should be exported before values',
-  importAfterExport: 'Imports should come before exports',
-  importAfterStatement: 'Imports should come before the code',
-  importModuleAfterImport: 'Modules with side effects should be mported first',
-  importTypeAfterImport: 'Types should be imported before values',
-  reexportAfterExport: 'Re-exports should come before exports',
-  reexportTypeAfterReexport: 'Types should be re-exported before values',
+  insertNewline: 'Add the missing newline between imports',
+  removeNewline: 'Remove the extra newline between imports',
 };
+
 
 export const rule: Rule.RuleModule = {
   meta: {
@@ -40,22 +36,28 @@ function checkProgram(context: Rule.RuleContext, program: TSESTree.Program) {
     const importSource = getImportSource(statement);
     const group = getGroup(packages, importType, importSource);
     if (previousStatement) {
-      const previousRange = getRangeWithCommentsAndWhitespace(sourceCode, previousStatement);
-      const range = getRangeWithCommentsAndWhitespace(sourceCode, statement);
-      console.log(getEmptyLinesBetweenTokens(sourceCode, previousRange, range));
-      const endLine = sourceCode.getLocFromIndex(previousRange[1] - 1).line;
-      const startLine = sourceCode.getLocFromIndex(range[0]).line;
-      const diff = startLine - endLine;
-      if (group === previousGroup && diff > 1) {
-        // must not have an empty line that's not a part of a comment
-      } else if (group !== previousGroup && diff <= 1) {
-        // must have an empty line that's not a part of a comment
+      const previousRange = getWholeRange(sourceCode, previousStatement).withoutWhitespace;
+      const range = getWholeRange(sourceCode, statement).withoutWhitespace;
+      const emptyLines = getEmptyLinesBetweenTokens(sourceCode, previousRange, range);
+      if (group === previousGroup && emptyLines >= 1) {
+        context.report({
+          loc: getLocFromRange(sourceCode, [range[0], range[0]]),
+          messageId: 'removeNewline',
+          fix: (fixer) => fixer.removeRange(range, '\n'),
+        });
+      } else if (group !== previousGroup && emptyLines < 1) {
+        context.report({
+          loc: getLocFromRange(sourceCode, [range[0], range[0]]),
+          messageId: 'insertNewline',
+          fix: (fixer) => fixer.insertTextBeforeRange(range, '\n'),
+        });
       }
     }
     previousStatement = statement;
     previousGroup = group;
   }
 }
+
 
 function getGroup(
   packages: Set<string>,
@@ -80,6 +82,7 @@ function getGroup(
   assertNever(importType);
 }
 
+
 function getEmptyLinesBetweenTokens(
   sourceCode: SourceCode,
   leftRange: AST.Range,
@@ -88,15 +91,11 @@ function getEmptyLinesBetweenTokens(
   const lastToken = sourceCode.getLastToken({ range: leftRange } as Node, {
     includeComments: true,
   })!;
-  console.log({ leftRange, lastToken });
   const firstToken = sourceCode.getFirstToken({ range: rightRange } as Node, {
     includeComments: true,
   })!;
   const lastLine = lastToken.loc!.end.line;
   const firstLine = firstToken.loc!.start.line;
-  // console.log(
-  //   require('util').inspect({ lastToken, lastLine, firstToken, firstLine }, false, null, true),
-  // );
   if (firstLine - lastLine <= 1) {
     return 0;
   }
